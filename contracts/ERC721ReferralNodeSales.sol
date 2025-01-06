@@ -6,7 +6,7 @@ import "@openzeppelin/contracts/access/Ownable.sol";
 import "@openzeppelin/contracts/proxy/utils/UUPSUpgradeable.sol";
 import "@openzeppelin/contracts/token/ERC20/IERC20.sol";
 
-contract NodeLicense is ERC721Enumerable, Ownable, UUPSUpgradeable {
+contract ERC721ReferralNodeSales is ERC721Enumerable, Ownable, UUPSUpgradeable {
     uint256 public price;
     address public fundsReceiver;
     bool public transferable = true;
