@@ -1,7 +1,8 @@
 import "@typechain/hardhat";
 import { HardhatUserConfig } from "hardhat/config";
+import "@nomicfoundation/hardhat-toolbox";
 import "@nomiclabs/hardhat-ethers";
-import "@nomiclabs/hardhat-etherscan"
+import "@nomicfoundation/hardhat-ignition-ethers";
 import * as dotenv from "dotenv";
 dotenv.config();
 
@@ -20,6 +21,9 @@ const config: HardhatUserConfig = {
         arbitrumSepolia: {
             url: process.env.ARBITRUM_SEPOLIA_RPC_URL || "",
             accounts: process.env.PRIVATE_KEY ? [process.env.PRIVATE_KEY] : [],
+        },
+        hardhat: {
+            chainId: 31337, // Hardhat local network chainId
         },
     },
     etherscan: {
