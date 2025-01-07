@@ -6,7 +6,7 @@
   "scripts": {
     "test": "npx hardhat test",
     "compile": "npx hardhat compile",
-    "deploy:arbitrum:sepolia": "npx hardhat ignition deploy ./ignition/modules/ERC721ReferralNodeSales.ts --network arbitrumSepolia",
+    "deploy:arbitrum:sepolia": "npx hardhat ignition deploy ./ignition/modules/ERC721ReferralNodeSales.ts --network arbitrumSepolia --verify",
     "deploy:local": "npx hardhat ignition deploy ./ignition/modules/ERC721ReferralNodeSales.ts --network localhost",
     "start-hardhat-local-network": "npx hardhat node"
   },
