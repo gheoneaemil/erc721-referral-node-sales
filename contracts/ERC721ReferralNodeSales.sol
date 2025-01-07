@@ -1,13 +1,13 @@
 // SPDX-License-Identifier: MIT
 pragma solidity ^0.8.19;
 
-import "https://github.com/OpenZeppelin/openzeppelin-contracts/blob/master/contracts/token/ERC721/extensions/ERC721Enumerable.sol";
 import "https://github.com/OpenZeppelin/openzeppelin-contracts/blob/master/contracts/access/Ownable.sol";
 import "https://github.com/OpenZeppelin/openzeppelin-contracts-upgradeable/blob/master/contracts/proxy/utils/UUPSUpgradeable.sol";
 import "https://github.com/openzeppelin/openzeppelin-contracts/blob/master/contracts/token/ERC20/IERC20.sol";
 import "https://github.com/OpenZeppelin/openzeppelin-contracts/blob/master/contracts/utils/ReentrancyGuard.sol";
+import "https://github.com/OpenZeppelin/openzeppelin-contracts/blob/master/contracts/token/ERC721/ERC721.sol";
 
-contract ERC721ReferralNodeSales is ERC721Enumerable, Ownable, UUPSUpgradeable, ReentrancyGuard {
+contract ERC721ReferralNodeSales is ERC721, Ownable, UUPSUpgradeable, ReentrancyGuard {
     uint256 public price;
     address public fundsReceiver;
     bool public transferable = true;
@@ -143,10 +143,11 @@ contract ERC721ReferralNodeSales is ERC721Enumerable, Ownable, UUPSUpgradeable, 
 
     function _authorizeUpgrade(address newImplementation) internal override onlyOwner {}
 
-    function _update(
-        address from,
-        address to,
-        uint256 tokenId,
-        uint256 batchSize
-    ) internal override onlyTransferable {}
+    function transferFrom(address from, address to, uint256 tokenId) onlyTransferable public override {
+        super.transferFrom(from, to, tokenId);
+    }
+
+    function safeTransferFrom(address from, address to, uint256 tokenId, bytes memory data) onlyTransferable public override {
+        super.safeTransferFrom(from, to, tokenId, data);
+    }
 }
