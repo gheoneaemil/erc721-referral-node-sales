@@ -1,5 +1,5 @@
 // SPDX-License-Identifier: MIT
-pragma solidity ^0.8.28;
+pragma solidity ^0.8.19;
 
 import "@openzeppelin/contracts/access/Ownable.sol";
 import "@openzeppelin/contracts/proxy/utils/UUPSUpgradeable.sol";
@@ -15,9 +15,9 @@ contract ERC721ReferralNodeSales is ERC721, Ownable, UUPSUpgradeable, Reentrancy
     uint256 private _nextTokenId;
 
     struct ReferralCode {
-        uint256 discountPercentage;
-        uint256 affiliatePercentage;
         address affiliate;
+        uint16 discountPercentage;
+        uint16 affiliatePercentage;
         bool active;
     }
 
@@ -26,7 +26,7 @@ contract ERC721ReferralNodeSales is ERC721, Ownable, UUPSUpgradeable, Reentrancy
     mapping(address => bool) public acceptedCurrencies;
 
     event LicenseMinted(address indexed buyer, uint256 tokenId);
-    event ReferralCodeCreated(string code, uint256 discountPercentage, uint256 affiliatePercentage, address affiliate);
+    event ReferralCodeCreated(string code, uint16 discountPercentage, uint16 affiliatePercentage, address affiliate);
     event FundsWithdrawn(address receiver, address indexed token, uint256 amount);
 
     constructor() Ownable(msg.sender) ERC721("NodeLicense", "NODE") {
@@ -50,7 +50,7 @@ contract ERC721ReferralNodeSales is ERC721, Ownable, UUPSUpgradeable, Reentrancy
         return finalPrice;
     }
 
-    function mint(address currency, string memory referralCode) nonReentrant external payable {
+    function mint(address currency, string memory referralCode, uint16 quantity) nonReentrant external payable {
         require(canMint, "Mint is not available yet");
         require(acceptedCurrencies[currency], "Currency not accepted");
         uint256 finalPrice = price;
@@ -60,19 +60,21 @@ contract ERC721ReferralNodeSales is ERC721, Ownable, UUPSUpgradeable, Reentrancy
             finalPrice -= (price * ref.discountPercentage) / 100;
             if (ref.affiliatePercentage > 0 && ref.affiliate != address(0)) {
                 uint256 affiliateReward = (price * ref.affiliatePercentage) / 100;
-                affiliateEarnings[ref.affiliate][currency] += affiliateReward;
+                affiliateEarnings[ref.affiliate][currency] += affiliateReward * quantity;
             }
         }
 
         if (currency == address(0)) {
-            require(msg.value >= finalPrice, "Insufficient ETH sent");
+            require(msg.value >= finalPrice * quantity, "Insufficient ETH sent");
         } else {
-            IERC20(currency).transferFrom(msg.sender, address(this), finalPrice);
+            IERC20(currency).transferFrom(msg.sender, address(this), finalPrice * quantity);
         }
 
-        _mint(msg.sender, _nextTokenId);
-        emit LicenseMinted(msg.sender, _nextTokenId);
-        _nextTokenId++;
+        for (uint16 i = 0 ; i < quantity ; ++i) {
+            _mint(msg.sender, _nextTokenId);
+            emit LicenseMinted(msg.sender, _nextTokenId);
+            _nextTokenId++;
+        }
     }
 
     function setPrice(uint256 _price) external onlyOwner {
@@ -120,12 +122,12 @@ contract ERC721ReferralNodeSales is ERC721, Ownable, UUPSUpgradeable, Reentrancy
 
     function createReferralCode(
         string memory code,
-        uint256 discountPercentage,
-        uint256 affiliatePercentage,
+        uint16 discountPercentage,
+        uint16 affiliatePercentage,
         address affiliate
     ) external onlyOwner {
         require(affiliatePercentage <= discountPercentage, "AP must be <= than DP");
-        referralCodes[code] = ReferralCode(discountPercentage, affiliatePercentage, affiliate, true);
+        referralCodes[code] = ReferralCode(affiliate, discountPercentage, affiliatePercentage, true);
         emit ReferralCodeCreated(code, discountPercentage, affiliatePercentage, affiliate);
     }
 
