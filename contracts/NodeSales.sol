@@ -12,7 +12,7 @@ contract NodeSales is ReentrancyGuard, Ownable, ERC721 {
     address public handlerContract;
     bool public transferable = true;
     bool public canMint = true;
-    uint256 public _nextTokenId;
+    uint256 public nextTokenId;
 
     struct ReferralCode {
         address affiliate;
@@ -37,7 +37,7 @@ contract NodeSales is ReentrancyGuard, Ownable, ERC721 {
         Ownable(msg.sender) 
         ERC721(name_, symbol_) 
     {
-        _nextTokenId = 1;
+        nextTokenId = 1;
         fundsReceiver = msg.sender;
         handlerContract = handlerContract_;
     }

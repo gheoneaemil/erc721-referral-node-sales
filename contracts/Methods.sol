@@ -43,9 +43,9 @@ contract Methods is NodeSales {
         }
 
         for (uint16 i = 0 ; i < quantity ; ++i) {
-            _mint(msg.sender, _nextTokenId);
-            emit LicenseMinted(msg.sender, _nextTokenId);
-            _nextTokenId++;
+            _mint(msg.sender, nextTokenId);
+            emit LicenseMinted(msg.sender, nextTokenId);
+            nextTokenId++;
         }
     }
 
