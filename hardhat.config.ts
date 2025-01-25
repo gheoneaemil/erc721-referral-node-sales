@@ -2,6 +2,7 @@ import "@typechain/hardhat";
 import { HardhatUserConfig } from "hardhat/config";
 import "@nomiclabs/hardhat-ethers";
 import "@nomicfoundation/hardhat-ignition";
+import "@nomicfoundation/hardhat-ignition-ethers";
 import * as dotenv from "dotenv";
 dotenv.config();
 
