@@ -11,42 +11,73 @@ contract Root is NodeSales {
         string memory symbol_
     ) NodeSales(handlerContract_, name_, symbol_) {}
 
-    function getMintPrice(string memory referralCode) external view returns(bytes memory) {
-        (bool success, bytes memory result) = handlerContract.staticcall(msg.data);
-        require(success);
-        return result;
+    function getMintPrice(string memory referralCode) external view returns(uint256) {
+        return IGetMintPrice(handlerContract).getMintPrice(referralCode);
     }
 
     function mint(
         address currency, 
         string memory referralCode, 
         uint16 quantity
-    ) nonReentrant external payable delegated {}
+    ) nonReentrant external payable {
+        (bool success, ) = handlerContract.delegatecall(msg.data);
+        require(success);
+    }
 
     function setPrice(
         uint256 _price
-    ) external onlyOwner delegated {}
+    ) external onlyOwner {
+        (bool success, ) = handlerContract.delegatecall(msg.data);
+        require(success);
+    }
 
-    function setCanMint(bool _canMint) external onlyOwner delegated {}
+    function setCanMint(bool _canMint) external onlyOwner {
+        (bool success, ) = handlerContract.delegatecall(msg.data);
+        require(success);
+    }
 
-    function setFundsReceiver(address _receiver) external onlyOwner delegated {}
+    function setFundsReceiver(address _receiver) external onlyOwner {
+        (bool success, ) = handlerContract.delegatecall(msg.data);
+        require(success);
+    }
 
-    function withdrawFunds(address token) nonReentrant external delegated {}
+    function withdrawFunds(address token) nonReentrant external {
+        (bool success, ) = handlerContract.delegatecall(msg.data);
+        require(success);
+    }
 
-    function toggleTransferability(bool _state) external onlyOwner delegated {}
+    function toggleTransferability(bool _state) external onlyOwner {
+        (bool success, ) = handlerContract.delegatecall(msg.data);
+        require(success);
+    }
 
-    function burn(uint256 tokenId) external onlyOwner delegated {}
+    function burn(uint256 tokenId) external onlyOwner {
+        (bool success, ) = handlerContract.delegatecall(msg.data);
+        require(success);
+    }
 
     function createReferralCode(
         string memory code,
         uint16 discountPercentage,
         uint16 affiliatePercentage,
         address affiliate
-    ) external onlyOwner delegated {}
+    ) external onlyOwner {
+        (bool success, ) = handlerContract.delegatecall(msg.data);
+        require(success);
+    }
 
-    function disableReferralCode(string memory code) external onlyOwner delegated {}
+    function disableReferralCode(string memory code) external onlyOwner {
+        (bool success, ) = handlerContract.delegatecall(msg.data);
+        require(success);
+    }
 
-    function addAcceptedCurrency(address currency) external onlyOwner delegated {}
+    function addAcceptedCurrency(address currency) external onlyOwner {
+        (bool success, ) = handlerContract.delegatecall(msg.data);
+        require(success);
+    }
 
-    function removeAcceptedCurrency(address currency) external onlyOwner delegated {}
+    function removeAcceptedCurrency(address currency) external onlyOwner {
+        (bool success, ) = handlerContract.delegatecall(msg.data);
+        require(success);
+    }
 }

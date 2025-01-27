@@ -1,34 +1,41 @@
 import { expect } from "chai";
 import { parseEther, Signer } from "ethers";
-import { Methods, Root } from "../typechain-types";
 import "@nomicfoundation/hardhat-chai-matchers";
 import { address0x0 } from "../utils/constants";
 const { ethers } = require("hardhat");
 
-const oneWei = parseEther("1");
+const oneWei = parseEther("1000000");
 
 describe("ERC721ReferralNodeSales Smart Contract", function () {
-    let root: Root;
-    let methods: Methods;
+    let root: any;
+    let methods: any;
     let owner: Signer, addr1: Signer, addr2: Signer;
 
     before(async function () {
         [owner, addr1, addr2] = await ethers.getSigners();
 
-        const Root = await ethers.getContractFactory("Root");
-        root = await Root.deploy(address0x0, "", "");
+        root = await ethers.deployContract("Root", [address0x0, "test", "t"]);
+        await root.waitForDeployment();
 
-        const Methods = await ethers.getContractFactory("Methods");
         const rootAddress = await root.getAddress();
-        console.log("Root address: ", rootAddress);
-        methods = await Methods.deploy(rootAddress, "", "");
+        
+        methods = await ethers.deployContract("Methods", [rootAddress, "test", "t"]);
+        await methods.waitForDeployment();
     });
 
     describe("Minting", function () {
+        it("should use the methods address on root contract", async function() {
+            const originalAddress = await methods.getAddress();
+            await root.setHandlerContract(originalAddress);
+            const address = await root.handlerContract();
+            console.log(address, originalAddress);
+            expect(address).to.be.eq(originalAddress);
+        });
+
         it("should mint a new token and emit event", async function () {
             await root.setPrice(oneWei);
             const nextTokenIdBefore = await root.nextTokenId();
-            await root.connect(addr1).mint(address0x0, "", 1);
+            await root.connect(addr1).mint(address0x0, "", 1, { value: 1 });
             const nextTokenIdAfter = await root.nextTokenId();
             console.log(nextTokenIdBefore, nextTokenIdAfter);
             await expect(nextTokenIdBefore).to.be.lt(nextTokenIdAfter);

@@ -1,10 +1,11 @@
 // SPDX-License-Identifier: MIT
 pragma solidity ^0.8.19;
 
-import "@openzeppelin/contracts/token/ERC20/IERC20.sol";
-import "@openzeppelin/contracts/utils/ReentrancyGuard.sol";
-import "@openzeppelin/contracts/access/Ownable.sol";
-import "@openzeppelin/contracts/token/ERC721/ERC721.sol";
+import "../deps/IERC20.sol";
+import "../deps/ReentrancyGuard.sol";
+import "../deps/Ownable.sol";
+import "../deps/ERC721.sol";
+import "./IGetMintPrice.sol";
 
 contract NodeSales is ReentrancyGuard, Ownable, ERC721 {
     uint256 public price;
@@ -44,12 +45,6 @@ contract NodeSales is ReentrancyGuard, Ownable, ERC721 {
 
     modifier onlyTransferable() {
         require(transferable, "Transfers are disabled");
-        _;
-    }
-
-    modifier delegated() {
-        (bool success, ) = handlerContract.delegatecall(msg.data);
-        require(success);
         _;
     }
 

@@ -1,0 +1,65 @@
+{
+	"compiler": {
+		"version": "0.8.19+commit.7dd6d404"
+	},
+	"language": "Solidity",
+	"output": {
+		"abi": [
+			{
+				"inputs": [
+					{
+						"internalType": "string",
+						"name": "referralCode",
+						"type": "string"
+					}
+				],
+				"name": "getMintPrice",
+				"outputs": [
+					{
+						"internalType": "uint256",
+						"name": "",
+						"type": "uint256"
+					}
+				],
+				"stateMutability": "view",
+				"type": "function"
+			}
+		],
+		"devdoc": {
+			"kind": "dev",
+			"methods": {},
+			"version": 1
+		},
+		"userdoc": {
+			"kind": "user",
+			"methods": {},
+			"version": 1
+		}
+	},
+	"settings": {
+		"compilationTarget": {
+			"contracts/IGetMintPrice.sol": "IGetMintPrice"
+		},
+		"evmVersion": "paris",
+		"libraries": {},
+		"metadata": {
+			"bytecodeHash": "ipfs"
+		},
+		"optimizer": {
+			"enabled": false,
+			"runs": 200
+		},
+		"remappings": []
+	},
+	"sources": {
+		"contracts/IGetMintPrice.sol": {
+			"keccak256": "0x0045715202853290bb15ffefbe31dc0c61141aa8fb16012db87aaa8a8832366b",
+			"license": "MIT",
+			"urls": [
+				"bzz-raw://35e7bb153ad403f3f8ba8f01733615e177f842f06070051f59e3459db2eceb75",
+				"dweb:/ipfs/QmRfebxmnRAaFN3wTuLzp3smsq2cxDFLY68ZuVHgidD7nK"
+			]
+		}
+	},
+	"version": 1
+}
