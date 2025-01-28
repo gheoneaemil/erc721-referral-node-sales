@@ -5,7 +5,6 @@ import "../deps/IERC20.sol";
 import "../deps/ReentrancyGuard.sol";
 import "../deps/Ownable.sol";
 import "../deps/ERC721.sol";
-import "./IGetMintPrice.sol";
 
 contract NodeSales is ReentrancyGuard, Ownable, ERC721 {
     uint256 public price;

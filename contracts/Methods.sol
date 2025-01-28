@@ -11,17 +11,6 @@ contract Methods is NodeSales {
         string memory symbol_
     ) NodeSales(handlerContract_, name_, symbol_) {}
 
-    function getMintPrice(string memory referralCode) external view returns(uint256) {
-        uint256 finalPrice = price;
-        ReferralCode memory ref = referralCodes[referralCode];
-        
-        if (referralCodes[referralCode].active) {    
-            finalPrice -= (price * ref.discountPercentage) / 100;
-        }
-        
-        return finalPrice;
-    }
-
     function mint(address currency, string memory referralCode, uint16 quantity) nonReentrant external payable {
         require(canMint, "Mint is not available yet");
         require(acceptedCurrencies[currency], "Currency not accepted");

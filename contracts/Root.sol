@@ -11,10 +11,6 @@ contract Root is NodeSales {
         string memory symbol_
     ) NodeSales(handlerContract_, name_, symbol_) {}
 
-    function getMintPrice(string memory referralCode) external view returns(uint256) {
-        return IGetMintPrice(handlerContract).getMintPrice(referralCode);
-    }
-
     function mint(
         address currency, 
         string memory referralCode, 
