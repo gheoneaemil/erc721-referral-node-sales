@@ -1,7 +1,7 @@
 // SPDX-License-Identifier: MIT
 pragma solidity ^0.8.19;
 
-import "./NodeSales.sol";
+import "../deps/NodeSales.sol";
 
 contract Root is NodeSales {
 
@@ -15,7 +15,7 @@ contract Root is NodeSales {
         address currency, 
         string memory referralCode, 
         uint16 quantity
-    ) nonReentrant external payable {
+    ) external payable {
         (bool success, ) = handlerContract.delegatecall(msg.data);
         require(success);
     }
@@ -37,7 +37,7 @@ contract Root is NodeSales {
         require(success);
     }
 
-    function withdrawFunds(address token) nonReentrant external {
+    function withdrawFunds(address token) external {
         (bool success, ) = handlerContract.delegatecall(msg.data);
         require(success);
     }
