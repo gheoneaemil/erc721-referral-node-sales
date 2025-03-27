@@ -15,13 +15,14 @@ contract Root is NodeSales {
         address currency, 
         string memory referralCode, 
         uint16 quantity
-    ) external payable {
+    ) external {
         (bool success, ) = handlerContract.delegatecall(msg.data);
         require(success);
     }
 
     function setPrice(
-        uint256 _price
+        uint256 _price,
+        address _token
     ) external onlyOwner {
         (bool success, ) = handlerContract.delegatecall(msg.data);
         require(success);
@@ -67,12 +68,7 @@ contract Root is NodeSales {
         require(success);
     }
 
-    function addAcceptedCurrency(address currency) external onlyOwner {
-        (bool success, ) = handlerContract.delegatecall(msg.data);
-        require(success);
-    }
-
-    function removeAcceptedCurrency(address currency) external onlyOwner {
+    function setAcceptedCurrency(address currency) external onlyOwner {
         (bool success, ) = handlerContract.delegatecall(msg.data);
         require(success);
     }

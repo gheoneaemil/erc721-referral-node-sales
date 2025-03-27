@@ -8,11 +8,12 @@ import "../deps/ERC721.sol";
 
 contract NodeSales is ReentrancyGuard, Ownable, ERC721 {
     uint256 public price;
+    uint256 public nextTokenId;
+    address public token;
     address public fundsReceiver;
     address public handlerContract;
     bool public transferable = true;
     bool public canMint = true;
-    uint256 public nextTokenId;
 
     struct ReferralCode {
         address affiliate;
